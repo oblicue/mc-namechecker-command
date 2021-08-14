@@ -1,0 +1,18 @@
+if [ $# -eq 0 ]
+then
+    echo "mcname: no name specified!"
+    echo "mcname: try 'mcname --help' for more information"
+    exit 1
+fi
+if [ "$1" == "--help" ]
+then
+    echo "Usage: mcname <name>"
+    exit 1
+fi
+HTTP_CODE=$(curl --write-out "%{http_code}\n" "https://api.ashcon.app/mojang/v2/user/$1" --output ~/.mcnamefile --silent)
+if [ $HTTP_CODE != 200 ]
+then
+    echo "Name is not taken."
+else
+    echo "Name is taken."
+fi
